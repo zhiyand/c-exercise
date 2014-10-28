@@ -103,6 +103,16 @@ void array2d_display(struct Array2D array2d){
     array2d_display_horizontal_line(array2d);
 }
 
+/*
+ * Destroy and release a 2d array
+ */
+void array2d_destroy(struct Array2D array2d){
+    array2d.rows = 0;
+    array2d.cols = 0;
+    free(array2d.array);
+    free(array2d.widths);
+}
+
 
 int main(void){
     struct Array2D my_array = array2d_create(2, 3);
@@ -115,6 +125,8 @@ int main(void){
     array2d_set(my_array, 1, 2, 701);
 
     array2d_display(my_array);
+
+    array2d_destroy(my_array);
 
     return 0;
 }
