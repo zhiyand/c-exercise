@@ -47,6 +47,20 @@ void list_display(Node rootNode){
     printf("+----------------+--+----+\n");
 }
 
+void list_destroy(Node rootNode){
+    Node nextNode = rootNode->next;
+
+    while(rootNode != NULL){
+        printf("Free: %s\n", rootNode->name);
+        free(rootNode);
+
+        rootNode = nextNode;
+        if(nextNode != NULL){
+            nextNode = nextNode->next;
+        }
+    }
+}
+
 int main(void){
     Node root = list_create_node("Duan Zhiyan", 'M', 27);
 
@@ -58,8 +72,9 @@ int main(void){
     list_display(root);
 
     list_prepend(root, list_create_node("Mr. Smart", 'M', 36));
-
     list_display(root);
+
+    list_destroy(root);
 
     return 0;
 }
