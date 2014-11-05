@@ -35,6 +35,48 @@ void list_prepend(Node rootNode, Node node){
     rootNode->next = node;
 }
 
+Node list_find(Node rootNode, const char * name){
+    Node node = rootNode;
+
+    while(node != NULL){
+        if( ! strcmp(node->name, name)){
+            return node;
+        }
+        node = node->next;
+    }
+
+    return NULL;
+}
+
+Node list_delete(Node rootNode, Node node){
+    Node previous = NULL, current = rootNode;
+
+    while(current != NULL){
+        if(current == node){
+            if(previous == NULL){
+                rootNode = current->next;
+            }else{
+                previous->next = current->next;
+            }
+            free(current);
+            break;
+        }
+        previous = current;
+        current = current->next;
+    }
+
+    return rootNode;
+}
+
+Node list_delete_by_name(Node rootNode, const char * name){
+    Node node = list_find(rootNode, name);
+
+    if(node != NULL){
+        rootNode = list_delete(rootNode, node);
+    }
+    return rootNode;
+}
+
 void list_display(Node rootNode){
     Node item = rootNode;
 
@@ -51,7 +93,6 @@ void list_destroy(Node rootNode){
     Node nextNode = rootNode->next;
 
     while(rootNode != NULL){
-        printf("Free: %s\n", rootNode->name);
         free(rootNode);
 
         rootNode = nextNode;
@@ -68,10 +109,24 @@ int main(void){
 
     Node node = list_create_node("Xie Jun", 'F', 28);
 
+    printf("Append Xie Jun\n");
     list_append(root, node);
     list_display(root);
 
+    printf("Prepend Mr. Smart\n");
     list_prepend(root, list_create_node("Mr. Smart", 'M', 36));
+    list_display(root);
+
+    node = list_find(root, "Mr. Smart");
+    printf("Searching for: Mr. Smart\n");
+    printf("Node found: %s, %c, %d\n", node->name, node->gender, node->age);
+
+    printf("Delete Mr. Smart\n");
+    list_delete(root, node);
+    list_display(root);
+
+    printf("Delete Duan Zhiyan\n");
+    root = list_delete_by_name(root, "Duan Zhiyan");
     list_display(root);
 
     list_destroy(root);
