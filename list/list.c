@@ -90,9 +90,10 @@ void list_display(Node rootNode){
 }
 
 void list_destroy(Node rootNode){
-    Node nextNode = rootNode->next;
+    Node nextNode = NULL;
 
     while(rootNode != NULL){
+        nextNode = rootNode->next;
         free(rootNode);
 
         rootNode = nextNode;
@@ -122,7 +123,7 @@ int main(void){
     printf("Node found: %s, %c, %d\n", node->name, node->gender, node->age);
 
     printf("Delete Mr. Smart\n");
-    list_delete(root, node);
+    root = list_delete(root, node);
     list_display(root);
 
     printf("Delete Duan Zhiyan\n");
