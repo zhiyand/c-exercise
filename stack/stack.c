@@ -54,6 +54,15 @@ void stack_display(Stack stack){
     printf("+------+\n");
 }
 
+void stack_destroy(Stack stack){
+    if(stack != NULL){
+        if(stack->numbers != NULL){
+            free(stack->numbers);
+        }
+        free(stack);
+    }
+}
+
 int main(void){
     int i = 0;
     Stack stack = stack_create(6);
@@ -89,5 +98,6 @@ int main(void){
     printf("Push: %d\n", push(stack, 100));
     stack_display(stack);
 
+    stack_destroy(stack);
     return 0;
 }
