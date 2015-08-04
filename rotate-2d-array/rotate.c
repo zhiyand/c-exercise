@@ -36,13 +36,13 @@ int main(int argc, char ** argv)
 }
 
 /**
- * Rotate one circle of the array by one step
+ * Rotate one circle of the array by 90 degrees clockwise
  *
  *  .....
  *  .***.
  *  .*.*.
  *  .***.
- *  .....   -- rotate those denoted as `*` by one step
+ *  .....   -- rotate those denoted as `*`
  *
  */
 void circle_rotate(int ** array, int dimension, int level){
@@ -50,29 +50,23 @@ void circle_rotate(int ** array, int dimension, int level){
 
     int range = dimension - level;
 
-    box = array[level][level];
 
-    /* Move left col up */
-    for(int i = level+1; i < range; i++){
-        array[i-1][level] = array[i][level];
+    for(int offset = 0; offset < range - level - 1; offset++){
+        /* cache left */
+        box = array[level+offset][level];
+
+        /* left <- bottom */
+        array[level+offset][level] = array[range -1][level + offset];
+
+        /* bottom <- right */
+        array[range -1][level + offset] = array[range -1 - offset][range -1];
+
+        /* right <- top */
+        array[range -1 - offset][range - 1] = array[level][range - 1 - offset];
+
+        /* top <- left */
+        array[level][range - 1 - offset] = box;
     }
-
-    /* Move bottom row left */
-    for(int j = level+1; j < range; j++){
-        array[range - 1][j-1] = array[range-1][j];
-    }
-
-    /* Move right col down */
-    for(int i = range - 1; i > level; i--){
-        array[i][range-1] = array[i-1][range-1];
-    }
-
-    /* Move top row right */
-    for(int j = range -1; j > level; j--){
-        array[level][j] = array[level][j-1];
-    }
-
-    array[level][level+1] = box;
 }
 
 /**
@@ -82,12 +76,7 @@ void rotate(int ** array, int dimension){
     int half = dimension / 2;
 
     for(int round = 0; round < half; round++){
-
-        int times = dimension - 2 * round - 1;
-
-        for(int i = 0; i < times; i++){
-            circle_rotate(array, dimension, round);
-        }
+        circle_rotate(array, dimension, round);
     }
 }
 
