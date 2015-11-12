@@ -13,10 +13,6 @@ int main(int argc, char ** argv)
 {
     // Initialize curses
     WINDOW* wnd = initscr();
-    cbreak();
-    noecho();
-    clear();
-    refresh();
 
     // Load maze
     Maze maze = maze_load(argv[1]);
