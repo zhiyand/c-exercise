@@ -40,7 +40,7 @@ char maze_get(Maze maze, int row, int col)
 
 void maze_move(Maze maze, char direction)
 {
-    int dx = maze->r; int dy = maze->c;
+    int dr = maze->r; int dc = maze->c;
 
     switch(direction){
     case 'L':
