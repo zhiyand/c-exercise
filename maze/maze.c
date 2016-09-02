@@ -15,13 +15,6 @@ char blocks[] = {
     /*  0    1    2    3 */
        '.', 'X', '@', '$'};
 
-void maze_clear_line()
-{
-    char ch;
-    while('\n' != (ch = getchar()))
-        continue;
-}
-
 void maze_put(Maze maze, int row, int col, char ch)
 {
     int index = maze->cols * row + col;
