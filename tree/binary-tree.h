@@ -2,53 +2,32 @@
 #define _BINARY_TREE_H_
 
 struct binaryTreeNode{
-    int    number;
-    struct treeNode * left;
-    struct treeNode * right;
+    char   tag;
+    struct binaryTreeNode* left;
+    struct binaryTreeNode* right;
 };
 
 typedef struct binaryTreeNode* BinaryTreeNode;
 
-struct binaryTree{
-    int levelCount;
-    int nodeCount;
-    BinaryTreeNode root;
-};
-
-typedef struct binaryTree* BinaryTree;
-
-/*
- * Create a binary tree
+/**
+ * Create a new node.
  */
-BinaryTree binary_tree_create();
+BinaryTreeNode binary_tree_new_node(char tag);
 
-/*
- * Insert `number` into the `tree`
+/**
+ * Attach `tag` to the `tree` on the `side` side.
+ * - side: 1:left, 2:right
  */
-void binary_tree_insert(BinaryTree tree, int number);
+void binary_tree_attach(BinaryTreeNode tree, BinaryTreeNode node, int side);
 
-/*
- * Find `number` in `tree`
- *
- * @return the corresponding BinaryTreeNode if found;
- *         NULL if not found.
- */
-BinaryTreeNode binary_tree_search(BinaryTree tree, int number);
+BinaryTreeNode binary_tree_detach(BinaryTreeNode tree, int side);
 
-/*
- * Delete `number` from `tree`
- */
-void binary_tree_delete(BinaryTree tree, int number);
-
-/*
- * Display `tree` on screen
- */
-void binary_tree_display(BinaryTree tree);
+char* binary_tree_traversal(BinaryTreeNode tree, int order);
 
 /*
  * Destroy `tree` and release all memory
  */
-void binary_tree_destroy(BinaryTree tree);
+void binary_tree_destroy(BinaryTreeNode tree);
 
 
 #endif // _BINARY_TREE_H_

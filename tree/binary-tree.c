@@ -1,64 +1,77 @@
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "binary-tree.h"
 
+
+
 /*
- * Create a binary tree
+ * Destroy `tree` and release all memory
  */
-BinaryTree binary_tree_create(){
-    BinaryTree tree = (BinaryTree) malloc(sizeof(struct binaryTree));
+void binary_tree_destroy(BinaryTreeNode tree);
 
-    tree->levelCount = 0;
-    tree->nodeCount  = 0;
-    tree->root       = NULL;
+/* ------------ */
 
-    return tree;
-}
-
-static BinaryTreeNode binary_tree_node_create(int number){
+BinaryTreeNode binary_tree_new_node(char tag)
+{
     BinaryTreeNode node = (BinaryTreeNode) malloc(sizeof(struct binaryTreeNode));
 
-    node->number = number;
+    node->tag = tag;
     node->left   = NULL;
     node->right  = NULL;
 
     return node;
 }
 
-/*
- * Insert `number` into the `tree`
+/**
+ * Attach `tag` to the `tree` on the `side` side.
+ * - side: 1:left, 2:right
  */
-void binary_tree_insert(BinaryTree tree, int number)
+void binary_tree_attach(BinaryTreeNode tree, BinaryTreeNode node, int side)
 {
-    BinaryTreeNode node = tree->root;
-
-    if(tree->root == NULL){
-        tree->root = binary_tree_node_create(number);
-        return;
+    if (side == 1) {
+        tree->left = node;
+    } else {
+        tree->right = node;
     }
-
-    
 }
 
-/*
- * Find `number` in `tree`
- *
- * @return the corresponding BinaryTreeNode if found;
- *         NULL if not found.
- */
-BinaryTreeNode binary_tree_search(BinaryTree tree, int number);
+BinaryTreeNode binary_tree_detach(BinaryTreeNode tree, int side)
+{
+    return side == 1 ? tree->left : tree->right;
+}
 
-/*
- * Delete `number` from `tree`
+/**
+ * - order: 1:pre-order, 2:in-order, 3:post-order
  */
-void binary_tree_delete(BinaryTree tree, int number);
+char* binary_tree_traversal(BinaryTreeNode tree, int order)
+{
+    if (tree->left == NULL && tree->right == NULL) {
+        char* s = (char*) malloc(2);
+        sprintf(s, "%c", tree->tag);
+        return s;
+    }
 
-/*
- * Display `tree` on screen
- */
-void binary_tree_display(BinaryTree tree);
+    char* left = tree->left == NULL ? "" : binary_tree_traversal(tree->left, order);
+    char* right = tree->right == NULL ? "" : binary_tree_traversal(tree->right, order);
 
-/*
- * Destroy `tree` and release all memory
- */
-void binary_tree_destroy(BinaryTree tree);
+    size_t length = 2 + strlen(left) + strlen(right);
+    char* buffer = (char*) malloc(length);
+    memset((void*)buffer, 0, length);
+
+
+    switch(order){
+        case 1:
+            sprintf(buffer, "%c%s%s", tree->tag, left, right);
+            break;
+        case 2:
+            sprintf(buffer, "%s%c%s", left, tree->tag, right);
+            break;
+        case 3:
+            sprintf(buffer, "%s%s%c", left, right, tree->tag);
+            break;
+    }
+
+    return buffer;
+}
 

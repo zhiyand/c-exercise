@@ -16,9 +16,9 @@ struct Array2D array2d_create(int rows, int cols){
     struct Array2D array2d;
     int bytes = sizeof(int) * rows * cols;
 
-    array2d.rows = rows;
-    array2d.cols = cols;
-    array2d.array = (int*) malloc(bytes);
+    array2d.rows   = rows;
+    array2d.cols   = cols;
+    array2d.array  = (int*) malloc(bytes);
     array2d.widths = (int*) malloc(bytes / rows);
 
     memset((void*)array2d.array, 0, bytes);
